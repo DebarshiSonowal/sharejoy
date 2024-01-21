@@ -2,6 +2,8 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sharejoy/Constants/constatnts.dart';
+import 'package:sharejoy/Constants/routes.dart';
+import 'package:sharejoy/Routing/navigator.dart';
 import 'package:sizer/sizer.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -39,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: GoogleFonts.raleway().copyWith(
                       color: Colors.white,
                       // fontWeight: FontWeight.bold,
-                      fontSize: 8.sp,
+                      fontSize: 8.5.sp,
                     ),
                   ),
                   Row(
@@ -188,59 +190,64 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       var item = Constants.celebrations[index];
-                      return Container(
-                        padding: EdgeInsets.symmetric(
-                          // horizontal: 6.w,
-                          vertical: 6.h,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          image: DecorationImage(
-                            image: Image.asset(
-                              item.image,
-                              fit: BoxFit.cover,
-                            ).image,
-                            fit: BoxFit.fill,
+                      return GestureDetector(
+                        onTap: (){
+                          Navigation.instance.navigate(Routes.addCelebrationScreen);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            // horizontal: 6.w,
+                            vertical: 6.h,
                           ),
-                        ),
-                        width: 75.w,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Container(
-                              padding: EdgeInsets.only(
-                                left: 7.w,
-                                // vertical: 8.h,
-                              ),
-                              color: Colors.black12,
-                              height: 8.h,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    item.title,
-                                    style: GoogleFonts.raleway().copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15.sp,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 1.h,
-                                  ),
-                                  Text(
-                                    item.title,
-                                    style: GoogleFonts.raleway().copyWith(
-                                      color: Colors.white,
-                                      // fontWeight: FontWeight.bold,
-                                      fontSize: 10.sp,
-                                    ),
-                                  )
-                                ],
-                              ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image: DecorationImage(
+                              image: Image.asset(
+                                item.image,
+                                fit: BoxFit.cover,
+                              ).image,
+                              fit: BoxFit.fill,
                             ),
-                          ],
+                          ),
+                          width: 75.w,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.only(
+                                  left: 7.w,
+                                  // vertical: 8.h,
+                                ),
+                                color: Colors.black12,
+                                height: 8.h,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.title,
+                                      style: GoogleFonts.raleway().copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15.sp,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 1.h,
+                                    ),
+                                    Text(
+                                      item.title,
+                                      style: GoogleFonts.raleway().copyWith(
+                                        color: Colors.white,
+                                        // fontWeight: FontWeight.bold,
+                                        fontSize: 10.sp,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
