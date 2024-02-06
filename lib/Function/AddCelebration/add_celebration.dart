@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:sharejoy/Constants/assets.dart';
 import 'package:sharejoy/Constants/routes.dart';
 import 'package:sharejoy/Routing/navigator.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../Constants/constatnts.dart';
 import '../../Widget/custom_text_field.dart';
+import '../../Widget/success_pop_up.dart';
 
 class AddCelebrationScreen extends StatefulWidget {
   const AddCelebrationScreen({super.key});
@@ -15,10 +19,11 @@ class AddCelebrationScreen extends StatefulWidget {
 }
 
 class _AddCelebrationScreenState extends State<AddCelebrationScreen> {
-  final email = TextEditingController();
-  final password = TextEditingController();
+  final celebrationType = TextEditingController();
+  final expectedSurplus = TextEditingController();
+  final addItemsToDonate = TextEditingController();
   bool isChecked = false;
-  String address = "";
+  String address = "", dateTime = "";
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +53,7 @@ class _AddCelebrationScreenState extends State<AddCelebrationScreen> {
                   height: 3.h,
                 ),
                 Text(
-                  'Sign in to your account and continue making a positive impact through our food donation app.',
+                  "Plan your celebration with purpose! Share event details and expected surplus food quantities to make every gathering a joyous opportunity for giving back.",
                   style: GoogleFonts.manrope().copyWith(
                     color: Colors.white,
                     // fontWeight: FontWeight.bold,
@@ -59,19 +64,19 @@ class _AddCelebrationScreenState extends State<AddCelebrationScreen> {
                   height: 3.h,
                 ),
                 CustomTextField(
-                  controller: email,
-                  type: TextInputType.emailAddress,
-                  hint: "Enter your mail",
-                  fullname: "Email",
+                  controller: celebrationType,
+                  type: TextInputType.text,
+                  hint: "Birthday, Wedding, etc",
+                  fullname: "Celebration Type",
                 ),
                 SizedBox(
                   height: 2.h,
                 ),
                 CustomTextField(
-                  controller: password,
-                  type: TextInputType.visiblePassword,
-                  hint: "Enter your password",
-                  fullname: "Password",
+                  controller: expectedSurplus,
+                  type: TextInputType.number,
+                  hint: "No of persons",
+                  fullname: "Expected Surplus",
                 ),
                 SizedBox(
                   height: 2.h,
@@ -115,13 +120,94 @@ class _AddCelebrationScreenState extends State<AddCelebrationScreen> {
                   ),
                 ),
                 SizedBox(
+                  height: 2.h,
+                ),
+                Text(
+                  "Select Pickup Time and Date",
+                  style: GoogleFonts.manrope().copyWith(
+                    color: const Color(0xffD9D9D9),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 9.5.sp,
+                  ),
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    // Navigation.instance.navigate(Routes.pickAddressScreen);
+                    DatePicker.showDatePicker(context,
+                        showTitleActions: true,
+                        minTime: DateTime.now(),
+                        maxTime: DateTime.now().add(const Duration(days: 365)),
+                        onChanged: (date) {}, onConfirm: (date) {
+                      setState(() {
+                        dateTime = DateFormat("EEEE, hh:mm aa  dd/MM/yyyy")
+                            .format(date);
+                      });
+                    }, currentTime: DateTime.now(), locale: LocaleType.en);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 3.w,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color(0xff4d4d4d),
+                      ),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    width: double.infinity,
+                    height: 5.h,
+                    child: Row(
+                      children: [
+                        Text(
+                          dateTime,
+                          style: GoogleFonts.manrope().copyWith(
+                            color: const Color(0xffD9D9D9),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 9.5.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                CustomTextField(
+                  controller: addItemsToDonate,
+                  type: TextInputType.text,
+                  hint: "Rice, Dal, Chicken, Paneer etc",
+                  fullname: "Add Items to cart to donate",
+                ),
+                SizedBox(
                   height: 5.h,
                 ),
-                SizedBox(
-                  height: 30.h,
+                Text.rich(
+                  TextSpan(
+                    text:
+                        'By proceeding, you agree to our Terms and Conditions, ensuring responsible handling of surplus food and compliance with local regulations for a sustainable and impactful celebration. ',
+                    children: <InlineSpan>[
+                      TextSpan(
+                        text: 'Read Now',
+                        style: TextStyle(
+                          color: Constants.primaryColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    ],
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 9.5.sp,
+                      // fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
                 SizedBox(
-                  height: 2.5.h,
+                  height: 1.5.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -138,9 +224,12 @@ class _AddCelebrationScreenState extends State<AddCelebrationScreen> {
                           ),
                           // foreground
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          // showSuccess(context);
+                          Navigation.instance.navigate(Routes.confirmFoodScreen);
+                        },
                         child: Text(
-                          'Creation Celebration',
+                          'Create Celebration',
                           style: GoogleFonts.sora().copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
@@ -152,7 +241,25 @@ class _AddCelebrationScreenState extends State<AddCelebrationScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: 1.h,
+                  height: 1.5.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigation.instance.goBack();
+                      },
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 9.5.sp,
+                          // fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -161,4 +268,8 @@ class _AddCelebrationScreenState extends State<AddCelebrationScreen> {
       ),
     );
   }
+
+
 }
+
+

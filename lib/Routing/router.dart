@@ -5,6 +5,7 @@ import 'package:sharejoy/Function/Registration/registration_screen.dart';
 import '../Constants/routes.dart';
 import '../Function/AddAddress/pick_address.dart';
 import '../Function/AddCelebration/add_celebration.dart';
+import '../Function/ConfirmFood/confirm_food_screen.dart';
 import '../Function/SignIn/sign_in_screen.dart';
 import '../Function/SplashScreen/splash_screen.dart';
 import '../Widget/fade_transition_page_builder.dart';
@@ -19,6 +20,8 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return FadeTransitionPageRouteBuilder(page: const AddCelebrationScreen());
     case Routes.pickAddressScreen:
       return FadeTransitionPageRouteBuilder(page: const PickAddressScreen());
+    case Routes.confirmFoodScreen:
+      return FadeTransitionPageRouteBuilder(page: const ConfirmFoodScreen());
 
     //
     case Routes.registrationScreen:
